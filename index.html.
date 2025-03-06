@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basketball Free Throw Game</title>
+    <style>
+        body { text-align: center; font-family: Arial, sans-serif; }
+        #court { width: 300px; height: 400px; background: url('basketball_court.png') center/cover; margin: auto; position: relative; }
+        #ball { width: 50px; height: 50px; position: absolute; bottom: 20px; left: 125px; transition: all 1s ease-in-out; }
+        #scoreboard { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h2>Basketball Free Throw Game</h2>
+    <input type="text" id="playerName" placeholder="Enter your name" />
+    <button onclick="takeShot()">Shoot!</button>
+    <div id="court">
+        <img id="ball" src="basketball.png" alt="Basketball">
+    </div>
+    <p id="result"></p>
+    <h3>Scoreboard</h3>
+    <ul id="scoreboard"></ul>
+    
+    <script>
+        let scoreboard = [];
+
+        function takeShot() {
+            let playerName = document.getElementById('playerName').value;
+            if (!playerName) {
+                alert("Please enter your name!");
+                return;
+            }
+            let ball = document.getElementById('ball');
+            let result = document.getElementById('result');
+            ball.style.transform = 'translateY(-250px)';
+            
+            setTimeout(() => {
+                let madeShot = Math.random() > 0.5; // 50% chance of success
+                if (madeShot) {
+                    result.innerText = `${playerName}, you made the shot!`;
+                    scoreboard.push(playerName);
+                    updateScoreboard();
+                } else {
+                    result.innerText = `${playerName}, you missed!`;
+                }
+                ball.style.transform = 'translateY(0)';
+            }, 1000);
+        }
+
+        function updateScoreboard() {
+            let scoreboardElement = document.getElementById('scoreboard');
+            scoreboardElement.innerHTML = '';
+            scoreboard.forEach(player => {
+                let li = document.createElement('li');
+                li.innerText = player;
+                scoreboardElement.appendChild(li);
+            });
+        }
+    </script>
+</body>
+</html>
